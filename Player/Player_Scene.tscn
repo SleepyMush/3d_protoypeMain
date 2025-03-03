@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx833358x6u0o"]
+
+[ext_resource type="Script" path="res://Script/player_Script.gd" id="1_0q4bc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7kgeh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_d0l7v"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_3t2qi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pidw4"]
+transparency = 1
+albedo_color = Color(0.193809, 0.843581, 0.924248, 0.533333)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xawn6"]
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_0q4bc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7kgeh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_d0l7v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.604309, 0, 0, 0, 0.604309, 0, 0, 0, 0.604309, 0, 1.57303, -0.386077)
+mesh = SubResource("SphereMesh_3t2qi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.402491, 0, 0, 0, 1, 0, 0, 0, 1, 10.7916, 3.11666, -0.530022)
+material_override = SubResource("StandardMaterial3D_pidw4")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_xawn6")

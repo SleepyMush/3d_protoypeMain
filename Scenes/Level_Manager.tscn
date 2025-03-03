@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://luo5lrg4ipl1"]
+
+[ext_resource type="Script" path="res://Script/level_manager.gd" id="1_jfuew"]
+[ext_resource type="PackedScene" uid="uid://bu603xifcvdxt" path="res://Scenes/Levels/level_1.tscn" id="2_6k0da"]
+[ext_resource type="PackedScene" uid="uid://c1u5st4404qsu" path="res://Scenes/Levels/level_2.tscn" id="3_uaii7"]
+[ext_resource type="PackedScene" uid="uid://bx833358x6u0o" path="res://Player/Player_Scene.tscn" id="5_cabuq"]
+[ext_resource type="PackedScene" uid="uid://pyiv7am262xl" path="res://UI/fade.tscn" id="6_4wv42"]
+[ext_resource type="PackedScene" uid="uid://dhix4kwonq0vv" path="res://Camera/camera.tscn" id="6_i4jc5"]
+
+[node name="Level_Manager" type="Node"]
+script = ExtResource("1_jfuew")
+levels = Array[PackedScene]([ExtResource("2_6k0da"), ExtResource("3_uaii7")])
+
+[node name="Player" parent="." instance=ExtResource("5_cabuq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2299, 0)
+collision_layer = 1
+collision_mask = 2
+
+[node name="Camera3D" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_i4jc5")]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 13, 17)
+target = NodePath("../Player")
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Fade" parent="CanvasLayer" instance=ExtResource("6_4wv42")]
+mouse_filter = 2
+
+[connection signal="update_camera_pos" from="Camera3D" to="Player" method="_on_camera_3d_update_camera_pos"]
