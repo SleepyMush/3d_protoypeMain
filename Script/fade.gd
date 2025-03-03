@@ -2,7 +2,6 @@ class_name FadeTransition
 extends Control
 @onready var color_rect: ColorRect = $ColorRect
 
-
 func fade_tween():
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(color_rect,"self_modulate",Color.BLACK, 1.0)

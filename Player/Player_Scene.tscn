@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx833358x6u0o"]
+[gd_scene load_steps=8 format=3 uid="uid://bx833358x6u0o"]
 
 [ext_resource type="Script" path="res://Script/player_Script.gd" id="1_0q4bc"]
+[ext_resource type="PackedScene" uid="uid://1csoeqqcr8wb" path="res://Miscellaneous/health.tscn" id="2_xx1dj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7kgeh"]
 
@@ -36,3 +37,5 @@ transform = Transform3D(0.402491, 0, 0, 0, 1, 0, 0, 0, 1, 10.7916, 3.11666, -0.5
 material_override = SubResource("StandardMaterial3D_pidw4")
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_xawn6")
+
+[node name="Health" parent="." instance=ExtResource("2_xx1dj")]

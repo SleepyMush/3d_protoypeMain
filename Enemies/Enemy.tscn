@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1a5nlmeqamwn"]
+
+[ext_resource type="Script" path="res://Script/enemy.gd" id="1_3ldnb"]
+[ext_resource type="PackedScene" uid="uid://1csoeqqcr8wb" path="res://Miscellaneous/health.tscn" id="2_elklj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_35x73"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a6pmh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vrk7m"]
+radius = 2.0
+
+[node name="Enemy_Enity" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_3ldnb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_35x73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_a6pmh")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_vrk7m")
+
+[node name="Health" parent="." instance=ExtResource("2_elklj")]
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Timer" type="Timer" parent="Node"]
+
+[connection signal="body_entered" from="Area3D" to="." method="_Area_Entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_Area_Exited"]
