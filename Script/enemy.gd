@@ -3,7 +3,7 @@ extends CharacterBody3D
 
 var current_speed : float = 0.100
 var chase_speed   : float = 1.0
-var distance_chased_from : float = 0.100
+var distance_chased_from : float = 2.0
 
 var player : Player
 
@@ -51,3 +51,7 @@ func _Area_Exited(body: Node3D) -> void:
 	if body is Player:
 		player = body
 		current_state = ENEMY_STATE.SEEK
+
+func _on_timer_timeout() -> void:
+	current_state = ENEMY_STATE.IDLE
+	timer.stop()

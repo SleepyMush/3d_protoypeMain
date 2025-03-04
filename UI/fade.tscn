@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://pyiv7am262xl"]
 
-[ext_resource type="Script" path="res://Script/fade.gd" id="1_855sm"]
+[ext_resource type="Script" uid="uid://p6i7kkc71s6g" path="res://Script/fade.gd" id="1_855sm"]
 
 [node name="Fade" type="Control"]
 layout_mode = 3

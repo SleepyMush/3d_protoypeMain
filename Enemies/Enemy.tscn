@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b1a5nlmeqamwn"]
 
-[ext_resource type="Script" path="res://Script/enemy.gd" id="1_3ldnb"]
+[ext_resource type="Script" uid="uid://dpcld0jsdf274" path="res://Script/enemy.gd" id="1_3ldnb"]
 [ext_resource type="PackedScene" uid="uid://1csoeqqcr8wb" path="res://Miscellaneous/health.tscn" id="2_elklj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_35x73"]
@@ -30,10 +30,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_vrk7m")
 
 [node name="Health" parent="." instance=ExtResource("2_elklj")]
+max_health = 50.0
 
 [node name="Node" type="Node" parent="."]
 
 [node name="Timer" type="Timer" parent="Node"]
+wait_time = 3.0
 
 [connection signal="body_entered" from="Area3D" to="." method="_Area_Entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_Area_Exited"]
+[connection signal="timeout" from="Node/Timer" to="." method="_on_timer_timeout"]

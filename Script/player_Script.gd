@@ -3,7 +3,7 @@ extends CharacterBody3D
 
 #Misallanious
 const control_adjustment : Vector2 = Vector2(1,1)
-var sprint_time : float = 2.0
+var sprint_time : float = 3.0
 var sprint_time_remain : float = 0.0
 
 #Player Variables
@@ -17,7 +17,13 @@ var control_basis : Basis
 var jump_velocity : float = 5.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-@onready var Trail_mesh: MeshInstance3D = $MeshInstance3D2
+@onready var progress_bar: ProgressBar = $OverLay/ProgressBar
+
+func _ready() -> void:
+	progress_bar.max_value = sprint_time
+
+func _process(delta: float) -> void:
+	progress_bar.value = sprint_time_remain
 
 func _physics_process(delta: float) -> void:
 		# Add the gravity.
@@ -36,7 +42,6 @@ func _physics_process(delta: float) -> void:
 	elif not Input.is_action_pressed("sprint"):
 			sprint_time_remain = clamp(sprint_time_remain + delta / 2.0, 0, sprint_time)
 			
-	Trail_mesh.scale.x = remap(sprint_time_remain, 0, sprint_time, 0, 2)
 	
 	var input_dir := Input.get_vector("Left", "Right", "Forward", "Backward")
 	direction = (control_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -63,3 +68,5 @@ func _on_camera_3d_update_camera_pos(ray: Variant, pos: Variant) -> void:
 	if newlookatpos.distance_to(global_position) > 0.1:
 		look_at(newlookatpos)
 		orthonormalize()
+
+#remap(sprint_time_remain, 0, sprint_time, 0, 2)
