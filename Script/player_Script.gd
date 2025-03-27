@@ -40,10 +40,12 @@ func _physics_process(delta: float) -> void:
 	
 	#current_speed = sprintSpeeds if Input.is_action_pressed("sprint") else walking_speed
 	current_speed = walking_speed
-	if Input.is_action_pressed("sprint") and sprint_time_remain > 0:
-		current_speed = sprintSpeeds
-		sprint_time_remain -= delta
-	elif not Input.is_action_pressed("sprint"):
+	if Input.is_action_pressed("sprint"):
+		if sprint_time_remain > 0.0:
+			current_speed = sprintSpeeds
+		if not velocity.is_zero_approx():
+			sprint_time_remain -= delta
+	if velocity.is_zero_approx():
 			sprint_time_remain = clamp(sprint_time_remain + delta / 2.0, 0, sprint_time)
 			
 	
