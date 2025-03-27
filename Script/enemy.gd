@@ -6,20 +6,21 @@ var chase_speed   : float = 8.0
 
 var player : Player
 
+@onready var target_position = Vector2()
+
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var timer: Timer = $Timer
 
-@onready var range: float = (func() -> float:
-	var size: Vector3 = $Waypoint_detector/CollisionShape3D.shape.size
-	return Vector2(size.x, size.z).length() / 2.0).call()
+@onready var range: float = $Waypoint_detector/CollisionShape3D.shape.radius
+
 var path : Array[Vector3] = []
 
 enum ENEMY_STATE {IDLE, WANDER, CHASE, ENRAGE, DEAD}
-var current_state : ENEMY_STATE = ENEMY_STATE.WANDER
+var current_state : ENEMY_STATE = ENEMY_STATE.IDLE
 
 
 func _ready() -> void:
-	navigation_agent.target_desired_distance = range*0.25
+	navigation_agent.target_desired_distance = range* 0.25
 
 func _physics_process(delta: float) -> void:
 	if not player :
@@ -28,18 +29,16 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	
-	
 	var next_location : Vector3 = navigation_agent.get_next_path_position()
 	match current_state:
 		ENEMY_STATE.IDLE :
 			velocity = Vector3.ZERO
-		ENEMY_STATE.WANDER :
-			velocity = (global_position.direction_to(next_location) * current_speed).limit_length(global_position.distance_to(next_location))
+		ENEMY_STATE.WANDER:
+			velocity = (global_position.direction_to(next_location)).limit_length(global_position.distance_to(next_location))  * current_speed
 		ENEMY_STATE.ENRAGE :
 			target_look()
 		ENEMY_STATE.CHASE:
-			velocity = (global_position.direction_to(next_location) * current_speed).limit_length(global_position.distance_to(next_location))
+			velocity = (global_position.direction_to(next_location)).limit_length(global_position.distance_to(next_location))  * current_speed
 			
 			path = [player.global_position]
 			
@@ -47,7 +46,7 @@ func _physics_process(delta: float) -> void:
 				current_state = ENEMY_STATE.WANDER
 		ENEMY_STATE.DEAD :
 			velocity = Vector3.ZERO
-
+			
 	move_and_slide()
 
 func target_look() -> void:
@@ -71,10 +70,10 @@ func _on_waypoint_detector_area_entered(area: Area3D) -> void:
 				path.push_front(area.position)
 
 func _on_navigation_agent_3d_navigation_finished() -> void:
-	if not path.is_empty() :
-		path.pop_front()
 	match current_state:
 		ENEMY_STATE.WANDER:
+			if not path.is_empty() :
+				path.pop_front()
 			current_state = ENEMY_STATE.IDLE
 	print("Target_reached")
 

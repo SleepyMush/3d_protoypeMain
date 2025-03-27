@@ -22,11 +22,9 @@ func get_player() -> Player:
 
 func load_level(level : int ) -> void :
 	print(str(levels[level]))
-	var level_in : Level = levels[level].instantiate()
-	level_in.level_complete.connect(_on_level_complete)
-	level_in.level_manager = self
-	$Level.add_child(level_in)
-	
+	current = levels[level].instantiate()
+	current.level_complete.connect(_on_level_complete.bind(level_count))
+	$Level.add_child(current)
 
 func delete_level(level : int) -> void:
 	$Level.get_child(0).queue_free()

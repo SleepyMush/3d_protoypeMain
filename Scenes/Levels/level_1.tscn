@@ -9,7 +9,7 @@ script/source = "extends Level
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body is Player:
-		level_complete.emit(0)
+		level_complete.emit()
 		print(\"complete\")
 "
 
@@ -59,7 +59,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2454, 1.06006, -0.485596)
 shape = SubResource("BoxShape3D_bw6yh")
 
 [node name="SpawnPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.20434, 0.67239, -13.5565)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.20434, 0.928723, -13.5565)
 script = ExtResource("2_cflxp")
 spawned_scene = ExtResource("3_oewjw")
 spawned_scene_path = "res://Enemies/Enemy.tscn"

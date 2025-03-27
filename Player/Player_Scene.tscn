@@ -16,7 +16,7 @@ bg_color = Color(0.216409, 0.250775, 0.386141, 1)
 bg_color = Color(0.275538, 0.376659, 0.717102, 1)
 
 [node name="Player" type="CharacterBody3D"]
-collision_layer = 2
+collision_layer = 3
 script = ExtResource("1_0q4bc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

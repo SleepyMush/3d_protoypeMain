@@ -49,6 +49,7 @@ func _physics_process(delta: float) -> void:
 			sprint_time_remain = clamp(sprint_time_remain + delta / 2.0, 0, sprint_time)
 			
 	
+	
 	var input_dir := Input.get_vector("Left", "Right", "Forward", "Backward")
 	direction = (control_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:

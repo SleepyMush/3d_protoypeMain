@@ -10,8 +10,8 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_vrk7m"]
 radius = 2.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4isyn"]
-size = Vector3(10, 1, 10)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4isyn"]
+radius = 10.0
 
 [node name="Enemy_Enity" type="CharacterBody3D"]
 script = ExtResource("1_3ldnb")
@@ -43,7 +43,7 @@ collision_mask = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Waypoint_detector"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.0177002)
-shape = SubResource("BoxShape3D_4isyn")
+shape = SubResource("CylinderShape3D_4isyn")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
