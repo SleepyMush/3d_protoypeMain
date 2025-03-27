@@ -37,8 +37,9 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 albedo_texture = ExtResource("3_3mqfk")
 uv1_scale = Vector3(10, 10, 10)
 
-[node name="level_0" type="Node3D"]
+[node name="level_0" type="Node3D" node_paths=PackedStringArray("navigation_region")]
 script = SubResource("GDScript_ydx1u")
+navigation_region = NodePath("NavigationRegion3D")
 
 [node name="Environment" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22.6529, 0)

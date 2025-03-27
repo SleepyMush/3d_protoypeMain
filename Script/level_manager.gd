@@ -5,6 +5,8 @@ var markers: Array[SpawnPoint]
 
 @export var levels : Array[PackedScene]
 var level_count : int = 0
+static var current: Level
+static var player: Player
 
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 @onready var fade: FadeTransition = $CanvasLayer/Fade
@@ -14,6 +16,9 @@ func _ready() -> void:
 		markers.append(m)
 	canvas_layer.hide()
 	load_level(level_count)
+
+func get_player() -> Player:
+	return $Player
 
 func load_level(level : int ) -> void :
 	print(str(levels[level]))

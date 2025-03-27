@@ -46,6 +46,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.0177002)
 shape = SubResource("BoxShape3D_4isyn")
 
 [node name="Timer" type="Timer" parent="."]
+autostart = true
 
 [connection signal="body_entered" from="Area3D" to="." method="_Area_Entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_Area_Exited"]
