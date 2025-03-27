@@ -13,8 +13,6 @@ levels = Array[PackedScene]([ExtResource("2_6k0da"), ExtResource("3_uaii7")])
 
 [node name="Player" parent="." instance=ExtResource("5_cabuq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2299, 0)
-collision_layer = 1
-collision_mask = 2
 
 [node name="Camera3D" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_i4jc5")]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 13, 17)

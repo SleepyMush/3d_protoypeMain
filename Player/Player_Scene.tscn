@@ -45,3 +45,11 @@ theme_override_styles/background = SubResource("StyleBoxFlat_0ciqf")
 theme_override_styles/fill = SubResource("StyleBoxFlat_na0fr")
 value = 60.0
 show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Waypoint_holder" type="Node" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

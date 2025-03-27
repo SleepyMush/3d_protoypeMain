@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1a5nlmeqamwn"]
+[gd_scene load_steps=7 format=3 uid="uid://b1a5nlmeqamwn"]
 
 [ext_resource type="Script" uid="uid://dpcld0jsdf274" path="res://Script/enemy.gd" id="1_3ldnb"]
 [ext_resource type="PackedScene" uid="uid://1csoeqqcr8wb" path="res://Miscellaneous/health.tscn" id="2_elklj"]
@@ -10,8 +10,10 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_vrk7m"]
 radius = 2.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_4isyn"]
+size = Vector3(10, 1, 10)
+
 [node name="Enemy_Enity" type="CharacterBody3D"]
-collision_layer = 2
 script = ExtResource("1_3ldnb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -23,7 +25,7 @@ mesh = SubResource("CapsuleMesh_a6pmh")
 skeleton = NodePath("../..")
 
 [node name="Area3D" type="Area3D" parent="."]
-collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -32,11 +34,21 @@ shape = SubResource("SphereShape3D_vrk7m")
 [node name="Health" parent="." instance=ExtResource("2_elklj")]
 max_health = 50.0
 
-[node name="Node" type="Node" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.1
+debug_enabled = true
 
-[node name="Timer" type="Timer" parent="Node"]
-wait_time = 3.0
+[node name="Waypoint_detector" type="Area3D" parent="."]
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Waypoint_detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.0177002)
+shape = SubResource("BoxShape3D_4isyn")
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="Area3D" to="." method="_Area_Entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_Area_Exited"]
-[connection signal="timeout" from="Node/Timer" to="." method="_on_timer_timeout"]
+[connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_navigation_finished"]
+[connection signal="area_entered" from="Waypoint_detector" to="." method="_on_waypoint_detector_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

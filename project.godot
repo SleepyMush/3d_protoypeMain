@@ -27,6 +27,10 @@ folder_colors={
 "res://UI/": "purple"
 }
 
+[global_group]
+
+Waypoints="Waypoints"
+
 [input]
 
 Left={
@@ -65,3 +69,4 @@ sprint={
 3d_physics/layer_1="Envirnment"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Enemy"
+3d_physics/layer_4="Waypoints"

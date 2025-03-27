@@ -17,7 +17,11 @@ var control_basis : Basis
 var jump_velocity : float = 5.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+const Waypoint = preload("res://Miscellaneous/Marker.tscn")
+@onready var waypoint_holder: Node = $Waypoint_holder
+
 @onready var progress_bar: ProgressBar = $OverLay/ProgressBar
+#@onready var timer: Timer = $Timer
 
 func _ready() -> void:
 	progress_bar.max_value = sprint_time
@@ -70,3 +74,9 @@ func _on_camera_3d_update_camera_pos(ray: Variant, pos: Variant) -> void:
 		orthonormalize()
 
 #remap(sprint_time_remain, 0, sprint_time, 0, 2)
+
+func _on_timer_timeout() -> void:
+	var w = Waypoint.instantiate()
+	waypoint_holder.add_child(w)
+	w.position = position
+	
