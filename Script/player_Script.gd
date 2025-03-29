@@ -21,13 +21,28 @@ const Waypoint = preload("res://Miscellaneous/Marker.tscn")
 @onready var waypoint_holder: Node = $Waypoint_holder
 
 @onready var progress_bar: ProgressBar = $OverLay/ProgressBar
-#@onready var timer: Timer = $Timer
+
+@onready var health_node: Health_Node = $Health
+@onready var health_bar: ProgressBar = $OverLay/Health_Bar
+signal got_hit(damage_taken : float)
+
+var collider
+@onready var ray_cast: RayCast3D = $Node3D/RayCast3D
 
 func _ready() -> void:
+	health_bar.value = health_node.health
 	progress_bar.max_value = sprint_time
 
 func _process(delta: float) -> void:
 	progress_bar.value = sprint_time_remain
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Fire"):
+		if ray_cast.is_colliding():
+			collider = ray_cast.get_collider()
+			print(collider)
+			if collider.get_parent() is EnemyBase:
+				collider.get_parent().hit(10)
 
 func _physics_process(delta: float) -> void:
 		# Add the gravity.
@@ -48,7 +63,6 @@ func _physics_process(delta: float) -> void:
 	if velocity.is_zero_approx():
 			sprint_time_remain = clamp(sprint_time_remain + delta / 2.0, 0, sprint_time)
 			
-	
 	
 	var input_dir := Input.get_vector("Left", "Right", "Forward", "Backward")
 	direction = (control_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -76,10 +90,20 @@ func _on_camera_3d_update_camera_pos(ray: Variant, pos: Variant) -> void:
 		look_at(newlookatpos)
 		orthonormalize()
 
-#remap(sprint_time_remain, 0, sprint_time, 0, 2)
 
 func _on_timer_timeout() -> void:
 	var w = Waypoint.instantiate()
 	waypoint_holder.add_child(w)
 	w.position = position
-	
+
+func hit(value: float) -> void:
+	health_node.take_damage(value)
+	print("Player ", value)
+	emit_signal("got_hit", value)
+
+func _on_health_died() -> void:
+	pass
+	#get_tree().paused = true
+
+func _on_health_health_changed(health: float) -> void:
+	health_bar.value = health

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bx833358x6u0o"]
+[gd_scene load_steps=11 format=3 uid="uid://bx833358x6u0o"]
 
 [ext_resource type="Script" uid="uid://qoh35wjptjgp" path="res://Script/player_Script.gd" id="1_0q4bc"]
 [ext_resource type="PackedScene" uid="uid://1csoeqqcr8wb" path="res://Miscellaneous/health.tscn" id="2_xx1dj"]
@@ -14,6 +14,14 @@ bg_color = Color(0.216409, 0.250775, 0.386141, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_na0fr"]
 bg_color = Color(0.275538, 0.376659, 0.717102, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk4hk"]
+bg_color = Color(0.157681, 0.685893, 0.646562, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1ndp"]
+bg_color = Color(0.773986, 0.54118, 0.374546, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ciqf"]
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 3
@@ -46,10 +54,40 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_na0fr")
 value = 60.0
 show_percentage = false
 
+[node name="Health_Bar" type="ProgressBar" parent="OverLay"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -49.0
+offset_top = 50.0
+offset_right = 35.0
+offset_bottom = 77.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_tk4hk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_k1ndp")
+value = 60.0
+show_percentage = false
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="Waypoint_holder" type="Node" parent="."]
 
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_0ciqf")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Node3D"]
+target_position = Vector3(0, -15, 0)
+collision_mask = 5
+collide_with_areas = true
+
+[connection signal="died" from="Health" to="." method="_on_health_died"]
+[connection signal="health_changed" from="Health" to="." method="_on_health_health_changed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -18,6 +18,9 @@ var path : Array[Vector3] = []
 enum ENEMY_STATE {IDLE, WANDER, CHASE, ENRAGE, DEAD}
 var current_state : ENEMY_STATE = ENEMY_STATE.IDLE
 
+@onready var health_node: Health_Node = $Health
+var damage: float = 10.0
+signal got_hit(damage_taken : float)
 
 func _ready() -> void:
 	navigation_agent.target_desired_distance = range* 0.25
@@ -37,15 +40,20 @@ func _physics_process(delta: float) -> void:
 			velocity = (global_position.direction_to(next_location)).limit_length(global_position.distance_to(next_location))  * current_speed
 		ENEMY_STATE.ENRAGE :
 			target_look()
+			player.hit(damage)
 		ENEMY_STATE.CHASE:
 			velocity = (global_position.direction_to(next_location)).limit_length(global_position.distance_to(next_location))  * current_speed
 			
 			path = [player.global_position]
 			
+			target_look()
+			
 			if player.global_position.distance_to(global_position) >= range:
 				current_state = ENEMY_STATE.WANDER
 		ENEMY_STATE.DEAD :
 			velocity = Vector3.ZERO
+			if health_node.health == 0:
+				queue_free()
 			
 	move_and_slide()
 
@@ -89,3 +97,12 @@ func _on_timer_timeout() -> void:
 	if not path.is_empty():
 		navigation_agent.target_position = path.get(0)
 	print("Ping! %s" % [path])
+
+func hit(value: float) -> void:
+	health_node.take_damage(value)
+	print("Enemy_damage ", value)
+	
+	emit_signal("got_hit", value)
+	
+	if health_node.health <= 0:
+		current_state = ENEMY_STATE.DEAD
